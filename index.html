@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mundo Anime — Catálogo</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #181b24;
+      --surface-2: #222634;
+      --accent: #ff3b6b;
+      --accent-2: #6c5ce7;
+      --text: #f3f5fa;
+      --muted: #9aa3b8;
+      --border: rgba(255, 255, 255, 0.08);
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(15, 17, 23, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 20px;
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      background: linear-gradient(90deg, var(--accent), #ff8fa3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .count-badge {
+      font-size: 0.85rem;
+      color: var(--muted);
+      background: var(--surface-2);
+      padding: 4px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .search-input,
+    .genre-select {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-input {
+      flex: 1;
+      min-width: 210px;
+    }
+
+    .genre-select {
+      min-width: 160px;
+      cursor: pointer;
+    }
+
+    .search-input:focus,
+    .genre-select:focus {
+      border-color: var(--accent);
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 24px auto;
+      padding: 0 20px 48px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 59, 107, 0.45);
+    }
+
+    .cover {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      background: var(--surface-2);
+    }
+
+    .card-body {
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .tag {
+      background: rgba(108, 92, 231, 0.18);
+      color: #b8afff;
+      padding: 2px 9px;
+      border-radius: 999px;
+      font-weight: 600;
+    }
+
+    .synopsis {
+      font-size: 0.85rem;
+      color: var(--muted);
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .status-box {
+      text-align: center;
+      padding: 48px 20px;
+      background: var(--
