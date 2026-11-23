@@ -82,8 +82,7 @@
       flex-wrap: wrap;
     }
 
-    .search-input,
-    .genre-select {
+    input, select {
       background: var(--surface);
       color: var(--text);
       border: 1px solid var(--border);
@@ -91,33 +90,26 @@
       padding: 10px 14px;
       font-size: 0.95rem;
       outline: none;
-      transition: border-color 0.2s;
     }
 
-    .search-input {
+    input {
       flex: 1;
-      min-width: 210px;
+      min-width: 200px;
     }
 
-    .genre-select {
-      min-width: 160px;
-      cursor: pointer;
-    }
-
-    .search-input:focus,
-    .genre-select:focus {
+    input:focus, select:focus {
       border-color: var(--accent);
     }
 
     main {
       max-width: 1200px;
       margin: 24px auto;
-      padding: 0 20px 48px;
+      padding: 0 20px 40px;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
       gap: 18px;
     }
 
@@ -128,19 +120,14 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      transition: transform 0.2s, border-color 0.2s;
     }
 
-    .card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(255, 59, 107, 0.45);
-    }
-
-    .cover {
+    .card img {
       width: 100%;
-      aspect-ratio: 3 / 4;
+      height: 290px;
       object-fit: cover;
       background: var(--surface-2);
+      display: block;
     }
 
     .card-body {
@@ -151,10 +138,9 @@
       flex: 1;
     }
 
-    .title {
-      font-size: 1rem;
+    .card-title {
+      font-size: 1.05rem;
       font-weight: 700;
-      color: var(--text);
     }
 
     .meta {
@@ -167,7 +153,7 @@
     }
 
     .tag {
-      background: rgba(108, 92, 231, 0.18);
+      background: rgba(108, 92, 231, 0.2);
       color: #b8afff;
       padding: 2px 9px;
       border-radius: 999px;
@@ -185,5 +171,163 @@
 
     .status-box {
       text-align: center;
-      padding: 48px 20px;
-      background: var(--
+      padding: 40px 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--muted);
+    }
+
+    .status-box h2 {
+      color: var(--text);
+      margin-bottom: 8px;
+      font-size: 1.15rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="brand-row">
+        <div class="brand">MUNDO ANIME</div>
+        <div class="count-badge" id="countBadge">Cargando...</div>
+      </div>
+      <div class="controls">
+        <input type="search" id="searchInput" placeholder="Buscar anime por título..." />
+        <select id="genreSelect">
+          <option value="">Todos los géneros</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div id="statusBox" class="status-box">
+      <h2>Iniciando catálogo...</h2>
+      <p>Conectando con la base de datos.</p>
+    </div>
+    <div id="catalogGrid" class="grid" style="display: none;"></div>
+  </main>
+
+  <script>
+    // Sustituye estos valores con los de tu proyecto en Supabase si aún no están puestos
+    const SUPABASE_URL = "TU_SUPABASE_URL";
+    const SUPABASE_ANON_KEY = "TU_SUPABASE_ANON_KEY";
+    const TABLE_NAME = "animes";
+
+    const statusBox = document.getElementById("statusBox");
+    const catalogGrid = document.getElementById("catalogGrid");
+    const countBadge = document.getElementById("countBadge");
+    const searchInput = document.getElementById("searchInput");
+    const genreSelect = document.getElementById("genreSelect");
+
+    let allAnimes = [];
+
+    function showStatus(title, message) {
+      catalogGrid.style.display = "none";
+      statusBox.style.display = "block";
+      statusBox.innerHTML = `<h2>${title}</h2><p>${message}</p>`;
+    }
+
+    function renderAnimes(list) {
+      countBadge.textContent = `${list.length} ${list.length === 1 ? "anime" : "animes"}`;
+
+      if (!list.length) {
+        showStatus("Sin resultados", "No se encontraron animes con ese filtro.");
+        return;
+      }
+
+      statusBox.style.display = "none";
+      catalogGrid.style.display = "grid";
+      catalogGrid.innerHTML = list.map((anime) => {
+        const title = anime.title || anime.titulo || anime.name || "Sin título";
+        const genre = anime.genre || anime.genero || "General";
+        const year = anime.year || anime.anio || "";
+        const synopsis = anime.synopsis || anime.sinopsis || anime.description || "";
+        const cover = anime.cover_url || anime.imagen || anime.image_url || "";
+
+        return `
+          <article class="card">
+            ${cover ? `<img src="${cover}" alt="${title}" loading="lazy" />` : ""}
+            <div class="card-body">
+              <div class="card-title">${title}</div>
+              <div class="meta">
+                <span class="tag">${genre}</span>
+                <span>${year}</span>
+              </div>
+              ${synopsis ? `<p class="synopsis">${synopsis}</p>` : ""}
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function populateGenres(list) {
+      const genres = [...new Set(
+        list
+          .map((item) => item.genre || item.genero)
+          .filter(Boolean)
+      )].sort();
+
+      genreSelect.innerHTML = `<option value="">Todos los géneros</option>` +
+        genres.map((g) => `<option value="${g}">${g}</option>`).join("");
+    }
+
+    function applyFilters() {
+      const query = searchInput.value.trim().toLowerCase();
+      const selectedGenre = genreSelect.value;
+
+      const filtered = allAnimes.filter((anime) => {
+        const title = String(anime.title || anime.titulo || anime.name || "").toLowerCase();
+        const genre = String(anime.genre || anime.genero || "");
+        const matchesQuery = !query || title.includes(query);
+        const matchesGenre = !selectedGenre || genre === selectedGenre;
+        return matchesQuery && matchesGenre;
+      });
+
+      renderAnimes(filtered);
+    }
+
+    async function initCatalog() {
+      if (!window.supabase) {
+        showStatus("Error al cargar Supabase", "No se pudo cargar la librería supabase-js desde el CDN.");
+        return;
+      }
+
+      if (
+        !SUPABASE_URL.startsWith("https://") ||
+        SUPABASE_URL.includes("TU_SUPABASE_URL") ||
+        SUPABASE_ANON_KEY.includes("TU_SUPABASE_ANON_KEY")
+      ) {
+        showStatus(
+          "Faltan credenciales de Supabase",
+          "Edita SUPABASE_URL y SUPABASE_ANON_KEY dentro de index.html con los datos reales de tu proyecto en Supabase."
+        );
+        return;
+      }
+
+      try {
+        const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const { data, error } = await client.from(TABLE_NAME).select("*");
+
+        if (error) {
+          showStatus("Error en Supabase", error.message);
+          return;
+        }
+
+        allAnimes = data || [];
+        populateGenres(allAnimes);
+        renderAnimes(allAnimes);
+      } catch (err) {
+        showStatus("Error inesperado", err.message || "Revisa la configuración de Supabase.");
+      }
+    }
+
+    searchInput.addEventListener("input", applyFilters);
+    genreSelect.addEventListener("change", applyFilters);
+
+    initCatalog();
+  </script>
+</body>
+</html>
+
