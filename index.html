@@ -14,12 +14,12 @@ nav{position:sticky;top:0;z-index:5;display:flex;gap:12px;align-items:center;jus
 .logo{font-family:"Bebas Neue",Impact,sans-serif;font-size:1.9rem;letter-spacing:1px;line-height:1}
 .logo span{color:var(--acc)}
 input{font:inherit;color:var(--text);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:8px 16px;min-width:0;width:min(220px,48vw)}
-input:focus-visible,.chip:focus-visible,.card:focus-visible,.btn:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
-.hero{position:relative;overflow:hidden;min-height:340px;display:flex;align-items:flex-end}
+input:focus-visible,.chip:focus-visible,.card:focus-visible,.btn:focus-visible,.fab:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+.hero{position:relative;overflow:hidden;min-height:340px;display:flex;align-items:flex-end;perspective:900px}
 .hero .bg{position:absolute;inset:-30px;background:#1b1e2e center/cover;filter:blur(26px) brightness(.5) saturate(1.2)}
-.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 4%,transparent 75%)}
-.hero-in{position:relative;z-index:1;display:flex;gap:20px;align-items:flex-end;padding:32px 16px 26px;max-width:1100px;margin:0 auto;width:100%}
-.hero img{width:130px;aspect-ratio:2/3;object-fit:cover;border-radius:8px;box-shadow:0 14px 40px rgba(0,0,0,.65);flex:none}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,var(--bg) 4%,transparent 75%);pointer-events:none}
+.hero-in{position:relative;z-index:1;display:flex;gap:22px;align-items:flex-end;padding:32px 16px 26px;max-width:1100px;margin:0 auto;width:100%}
+.hero img{width:130px;aspect-ratio:2/3;object-fit:cover;border-radius:8px;flex:none;transform:rotateY(-16deg) rotateX(4deg);box-shadow:-14px 18px 40px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.08)}
 .hero h1{font-family:"Bebas Neue",Impact,sans-serif;font-weight:400;font-size:clamp(2.4rem,9vw,4.6rem);line-height:.95;margin:6px 0}
 .badge{display:inline-block;background:var(--acc);color:#fff;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border-radius:4px;padding:2px 8px}
 .m{color:var(--muted);font-size:.88rem;margin:0}
@@ -30,13 +30,15 @@ input:focus-visible,.chip:focus-visible,.card:focus-visible,.btn:focus-visible{o
 .chip{font:inherit;white-space:nowrap;cursor:pointer;color:var(--muted);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:5px 16px}
 .chip[aria-pressed="true"]{background:var(--text);color:var(--bg);border-color:var(--text);font-weight:600}
 h2{font-family:"Bebas Neue",Impact,sans-serif;font-weight:400;font-size:1.8rem;margin:22px 0 4px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:18px;padding-bottom:40px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:22px;padding-bottom:90px;perspective:1000px}
 .card{background:none;border:0;padding:0;text-align:left;color:inherit;cursor:pointer;font:inherit}
-.poster{position:relative;aspect-ratio:2/3;border-radius:8px;overflow:hidden;background:var(--panel);border:1px solid var(--line);transition:transform .18s,box-shadow .18s}
-.card:hover .poster,.card:focus-visible .poster{transform:translateY(-6px);box-shadow:0 14px 30px rgba(0,0,0,.6)}
+.poster{position:relative;aspect-ratio:2/3;border-radius:8px;overflow:hidden;background:var(--panel);border:1px solid var(--line);box-shadow:0 8px 18px rgba(0,0,0,.45);transition:transform .15s ease-out,box-shadow .2s;will-change:transform}
+.poster::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .2s;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.3),transparent 55%)}
+.card:hover .poster,.card:focus-visible .poster{box-shadow:0 22px 40px rgba(0,0,0,.7)}
+.card:hover .poster::after{opacity:1}
 .poster img{width:100%;height:100%;object-fit:cover;display:block}
 .ph{display:grid;place-items:center;height:100%;font-family:"Bebas Neue",Impact,sans-serif;font-size:4rem;color:var(--muted);background:linear-gradient(160deg,#1d2030,#0f1119)}
-.card h3{font-size:.95rem;margin:8px 0 0;line-height:1.25}
+.card h3{font-size:.95rem;margin:10px 0 0;line-height:1.25}
 .empty{grid-column:1/-1;padding:28px;border:1px dashed var(--line);border-radius:8px;text-align:center;color:var(--muted)}
 dialog{border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--text);width:calc(100% - 32px);max-width:560px;padding:0}
 dialog::backdrop{background:rgba(0,0,0,.72)}
@@ -45,7 +47,20 @@ dialog::backdrop{background:rgba(0,0,0,.72)}
 .dl h3{font-family:"Bebas Neue",Impact,sans-serif;font-weight:400;font-size:2rem;line-height:1;margin:0 0 6px}
 .dl p{margin:8px 0 0}
 .x{display:block;margin:0 20px 20px auto}
-footer{text-align:center;color:var(--muted);font-size:.82rem;padding:10px 16px 30px}
+footer{text-align:center;color:var(--muted);font-size:.82rem;padding:0 16px 90px}
+.fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:9;width:58px;height:58px;border-radius:50%;border:0;background:var(--acc);color:#fff;font-size:1.7rem;cursor:pointer;box-shadow:0 8px 24px rgba(255,77,94,.45)}
+.bot{position:fixed;right:16px;bottom:calc(86px + env(safe-area-inset-bottom,0px));z-index:9;width:min(360px,calc(100% - 32px));height:min(62vh,480px);display:none;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 50px rgba(0,0,0,.6);overflow:hidden}
+.bot.open{display:flex}
+.bh{padding:12px 14px;border-bottom:1px solid var(--line);font-weight:600}
+.msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px}
+.b{max-width:90%;padding:8px 12px;border-radius:12px;font-size:.92rem}
+.ai{background:#1e2233;align-self:flex-start}
+.me{background:var(--acc);color:#fff;align-self:flex-end}
+.rec{display:block;width:100%;text-align:left;margin-top:6px;font:inherit;font-size:.88rem;color:var(--text);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer}
+.sug{display:flex;gap:6px;flex-wrap:wrap;padding:0 12px 8px}
+.sug button{font:inherit;font-size:.8rem;cursor:pointer;color:var(--muted);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px 10px}
+.bf{display:flex;gap:8px;padding:10px;border-top:1px solid var(--line)}
+.bf input{flex:1;width:auto;border-radius:8px}
 @media (max-width:520px){.hero img{width:96px}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.poster{transition:none}}
 </style>
@@ -69,6 +84,21 @@ footer{text-align:center;color:var(--muted);font-size:.82rem;padding:10px 16px 3
   <div class="dl" id="dl"></div>
   <form method="dialog"><button class="btn x">Cerrar</button></form>
 </dialog>
+
+<button class="fab" id="fab" aria-label="Abrir robot de anime">🤖</button>
+<section class="bot" id="bot" aria-label="Robot de anime">
+  <div class="bh">🤖 Robot Anime</div>
+  <div class="msgs" id="msgs"></div>
+  <div class="sug" id="sug">
+    <button data-q="algo de acción">Acción</button>
+    <button data-q="una película romántica">Película romántica</button>
+    <button data-q="anime corto">Anime corto</button>
+  </div>
+  <form class="bf" id="bf">
+    <input id="bq" type="text" placeholder="Pregúntame algo..." aria-label="Pregunta al robot" autocomplete="off">
+    <button class="btn">Enviar</button>
+  </form>
+</section>
 
 <script>
 const SB_URL="https://vskecpeihclqjjgxagvb.supabase.co";
@@ -124,26 +154,76 @@ async function loadAnimes(){
 }
 
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+async function getJson(url){
+  for(let k=0;k<3;k++){
+    try{
+      const r=await fetch(url);
+      if(r.ok)return await r.json();
+      if(r.status!==429)return null;
+    }catch(e){}
+    await sleep(1300);
+  }
+  return null;
+}
 async function loadPosters(){
   let cache={};
   try{cache=JSON.parse(localStorage.getItem("posters2")||"{}")}catch(e){}
   for(const a of ANIMES){
     let u=a.img||cache[a.n];
     if(!u){
-      try{
-        const url=a.m?"https://api.jikan.moe/v4/anime/"+a.m:"https://api.jikan.moe/v4/anime?limit=1&sfw=true&q="+encodeURIComponent(a.n);
-        const r=await fetch(url);
-        if(r.ok){
-          const j=await r.json(),d=Array.isArray(j.data)?j.data[0]:j.data;
-          u=d&&d.images&&d.images.jpg&&d.images.jpg.large_image_url;
-          if(u){cache[a.n]=u;try{localStorage.setItem("posters2",JSON.stringify(cache))}catch(e){}}
-        }
-      }catch(err){}
+      const url=a.m?"https://api.jikan.moe/v4/anime/"+a.m:"https://api.jikan.moe/v4/anime?limit=1&sfw=true&q="+encodeURIComponent(a.n);
+      const j=await getJson(url),d=j&&(Array.isArray(j.data)?j.data[0]:j.data);
+      u=d&&d.images&&d.images.jpg&&d.images.jpg.large_image_url;
+      if(u){cache[a.n]=u;try{localStorage.setItem("posters2",JSON.stringify(cache))}catch(e){}}
       await sleep(450);
     }
     if(u){POSTERS[a.n]=u;if(!featured){featured=a;drawHero()}draw()}
   }
 }
+
+/* Efecto 3D en las tarjetas */
+grid.addEventListener("pointermove",e=>{
+  const c=e.target.closest(".card");if(!c)return;
+  const p=c.querySelector(".poster"),r=p.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+  p.style.transform="perspective(700px) rotateX("+((.5-y)*18)+"deg) rotateY("+((x-.5)*18)+"deg) scale(1.05)";
+  p.style.setProperty("--gx",(x*100)+"%");p.style.setProperty("--gy",(y*100)+"%");
+});
+grid.addEventListener("pointerout",e=>{
+  const c=e.target.closest(".card");
+  if(c&&!c.contains(e.relatedTarget)){c.querySelector(".poster").style.transform=""}
+});
+
+/* Robot de anime: busca en el catálogo */
+const norm=s=>String(s).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+const SYN={accion:"accion",pelea:"accion",batalla:"accion",ninja:"accion",aventura:"aventura",piratas:"aventura",viaje:"aventura",misterio:"misterio",detective:"misterio",suspenso:"misterio",thriller:"misterio",fantasia:"fantasia",magia:"fantasia",alquimia:"fantasia",comedia:"comedia",gracioso:"comedia",divertido:"comedia",risa:"comedia",romance:"romance",romantico:"romance",romantica:"romance",amor:"romance"};
+const STOP=["algo","quiero","anime","animes","para","como","recomiendame","recomienda","busco","dame","tienes","hay","sobre","tipo"];
+function addMsg(html,who){const d=document.createElement("div");d.className="b "+who;d.innerHTML=html;$("msgs").appendChild(d);$("msgs").scrollTop=1e6}
+function ask(text){
+  const t=norm(text),words=t.split(/[^a-z0-9]+/).filter(Boolean);
+  if(/^(hola|buenas|hey|ola)/.test(t))return "¡Hola! 👋 Dime qué te gustaría ver: un género, una película, algo corto o el nombre de un anime.";
+  if(/cuantos/.test(t))return "En el catálogo hay "+ANIMES.length+" animes.";
+  const gens=new Set(words.map(w=>SYN[w]).filter(Boolean));
+  const year=(t.match(/\b(19|20)\d{2}\b/)||[])[0];
+  const scored=ANIMES.map((a,i)=>{
+    let sc=0;const nn=norm(a.n),ns=norm(a.s);
+    if(gens.has(norm(a.g)))sc+=3;
+    words.filter(w=>w.length>3&&!STOP.includes(w)&&!SYN[w]).forEach(w=>{if(nn.includes(w))sc+=4;else if(ns.includes(w))sc+=1});
+    if(/\b(corto|corta|pocos)\b/.test(t)&&a.e<=30)sc+=2;
+    if(/\b(largo|larga)\b/.test(t)&&a.e>=60)sc+=2;
+    if(/pelicula|film/.test(t)&&a.e===1)sc+=3;
+    if(/clasico|antiguo|viejo/.test(t)&&a.a<=2010)sc+=2;
+    if(/nuevo|reciente|actual/.test(t)&&a.a>=2016)sc+=2;
+    if(year&&a.a===+year)sc+=4;
+    return {a,i,sc};
+  }).filter(x=>x.sc>0).sort((x,y)=>y.sc-x.sc).slice(0,3);
+  if(!scored.length)return "No encontré nada con eso 😅 Prueba con «algo de acción», «una película romántica» o «anime corto».";
+  return "Mira lo que encontré:"+scored.map(x=>'<button class="rec" data-i="'+x.i+'"><b>'+esc(x.a.n)+'</b><br>'+esc(x.a.g)+' · '+(x.a.a||"")+' · '+eps(x.a)+'</button>').join("");
+}
+function send(text){if(!text.trim())return;addMsg(esc(text),"me");setTimeout(()=>addMsg(ask(text),"ai"),250)}
+$("fab").addEventListener("click",()=>{$("bot").classList.toggle("open")});
+$("bf").addEventListener("submit",e=>{e.preventDefault();const v=$("bq").value;$("bq").value="";send(v)});
+$("sug").addEventListener("click",e=>{const b=e.target.closest("[data-q]");if(b)send(b.dataset.q)});
+addMsg("¡Hola! Soy tu robot de anime 🤖 Pregúntame algo como «algo de acción», «una película romántica» o «anime corto».","ai");
 
 chips.addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;genre=b.dataset.g;drawChips();draw()});
 document.addEventListener("click",e=>{const c=e.target.closest("[data-i]");if(c)openInfo(+c.dataset.i)});
@@ -152,4 +232,4 @@ q.addEventListener("input",draw);
 drawHero();drawChips();draw();loadAnimes();
 </script>
 </body>
-</html>a
+</html>
