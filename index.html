@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+2<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="utf-8">
@@ -351,6 +351,24 @@ btn.addEventListener("click",()=>{
   $("bot").classList.toggle("open");
 });
 }
-</script>
+</script>  <script>
+function tf(url,opt){const c=new AbortController();const t=setTimeout(()=>c.abort(),8000);return fetch(url,{...(opt||{}),signal:c.signal}).finally(()=>clearTimeout(t))}
+async function fromAniList(n){try{const r=await tf("https://graphql.anilist.co",{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify({query:"query($s:String){Media(search:$s,type:ANIME){coverImage{extraLarge}}}",variables:{s:n}})});if(!r.ok)return null;const j=await r.json();return j.data&&j.data.Media&&j.data.Media.coverImage.extraLarge||null}catch(e){return null}}
+async function fromJikan(a){try{const r=await tf(a.m?"https://api.jikan.moe/v4/anime/"+a.m:"https://api.jikan.moe/v4/anime?limit=1&sfw=true&q="+encodeURIComponent(a.n));if(!r.ok)return null;const j=await r.json(),d=Array.isArray(j.data)?j.data[0]:j.data;return d&&d.images&&d.images.jpg&&d.images.jpg.large_image_url||null}catch(e){return null}}
+async function fromKitsu(n){try{const r=await tf("https://kitsu.io/api/edge/anime?page%5Blimit%5D=1&filter%5Btext%5D="+encodeURIComponent(n));if(!r.ok)return null;const j=await r.json(),d=j.data&&j.data[0];return d&&d.attributes.posterImage&&(d.attributes.posterImage.large||d.attributes.posterImage.original)||null}catch(e){return null}}
+async function loadPosters(){
+  let cache={};
+  try{cache=JSON.parse(localStorage.getItem("posters3")||"{}")}catch(e){}
+  for(const a of ANIMES){
+    let u=a.img||cache[a.n];
+    if(!u){
+      u=await fromAniList(a.n)||await fromJikan(a)||await fromKitsu(a.n);
+      if(u){cache[a.n]=u;try{localStorage.setItem("posters3",JSON.stringify(cache))}catch(e){}}
+      await sleep(300);
+    }
+    if(u){POSTERS[a.n]=u;if(!featured){featured=a;drawHero()}draw()}
+  }
+}
+</script>s
 </body>
 </html>
