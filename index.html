@@ -1,333 +1,144 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mundo Anime — Catálogo</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <style>
-    :root {
-      --bg: #0f1117;
-      --surface: #181b24;
-      --surface-2: #222634;
-      --accent: #ff3b6b;
-      --accent-2: #6c5ce7;
-      --text: #f3f5fa;
-      --muted: #9aa3b8;
-      --border: rgba(255, 255, 255, 0.08);
-      --radius: 14px;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      line-height: 1.5;
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: rgba(15, 17, 23, 0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      padding: 16px 20px;
-    }
-
-    .header-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .brand-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .brand {
-      font-size: 1.4rem;
-      font-weight: 800;
-      letter-spacing: 0.4px;
-      background: linear-gradient(90deg, var(--accent), #ff8fa3);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .count-badge {
-      font-size: 0.85rem;
-      color: var(--muted);
-      background: var(--surface-2);
-      padding: 4px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-    }
-
-    .controls {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    input, select {
-      background: var(--surface);
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 10px 14px;
-      font-size: 0.95rem;
-      outline: none;
-    }
-
-    input {
-      flex: 1;
-      min-width: 200px;
-    }
-
-    input:focus, select:focus {
-      border-color: var(--accent);
-    }
-
-    main {
-      max-width: 1200px;
-      margin: 24px auto;
-      padding: 0 20px 40px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-      gap: 18px;
-    }
-
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .card img {
-      width: 100%;
-      height: 290px;
-      object-fit: cover;
-      background: var(--surface-2);
-      display: block;
-    }
-
-    .card-body {
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      flex: 1;
-    }
-
-    .card-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-    }
-
-    .meta {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-
-    .tag {
-      background: rgba(108, 92, 231, 0.2);
-      color: #b8afff;
-      padding: 2px 9px;
-      border-radius: 999px;
-      font-weight: 600;
-    }
-
-    .synopsis {
-      font-size: 0.85rem;
-      color: var(--muted);
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-    }
-
-    .status-box {
-      text-align: center;
-      padding: 40px 20px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      color: var(--muted);
-    }
-
-    .status-box h2 {
-      color: var(--text);
-      margin-bottom: 8px;
-      font-size: 1.15rem;
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mundo Anime</title>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eceff6;--ink:#17172b;--panel:#fff;--sun:#e63946;--gold:#ffc43d;--muted:#55566e;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12121c;--ink:#f1f1f8;--panel:#1c1c2c;--muted:#a9aac4}}
+:root[data-theme="dark"]{--bg:#12121c;--ink:#f1f1f8;--panel:#1c1c2c;--muted:#a9aac4}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Zen Maru Gothic",system-ui,sans-serif;line-height:1.5}
+.wrap{max-width:1080px;margin:0 auto;padding:16px}
+.hero{position:relative;overflow:hidden;border:3px solid var(--ink);border-radius:6px;box-shadow:8px 8px 0 var(--ink);
+background:repeating-conic-gradient(from 0deg at 70% 45%,#2b2d6e 0 6deg,#1a1b45 6deg 12deg);color:#fff;
+padding:clamp(28px,7vw,72px) clamp(18px,5vw,56px);min-height:360px;display:flex;flex-direction:column;justify-content:flex-end}
+.sun{position:absolute;right:-8%;top:50%;width:min(62vw,420px);aspect-ratio:1;border-radius:50%;transform:translateY(-58%);
+background:radial-gradient(circle,var(--sun) 0 62%,transparent 63%),radial-gradient(circle,rgba(0,0,0,.28) 1.2px,transparent 1.6px) 0 0/9px 9px}
+.hero h1{position:relative;font-family:"Dela Gothic One",Impact,sans-serif;font-weight:400;font-size:clamp(2.8rem,12vw,6.4rem);line-height:.95;margin:0;
+transform:rotate(-3deg);transform-origin:left bottom;text-shadow:5px 5px 0 var(--sun)}
+.hero p{position:relative;max-width:30ch;margin:18px 0 22px;font-size:1.1rem}
+.btn{position:relative;align-self:flex-start;display:inline-block;background:var(--gold);color:#17172b;font-weight:700;text-decoration:none;
+border:3px solid #17172b;border-radius:4px;padding:10px 20px;box-shadow:4px 4px 0 #17172b;transition:transform .12s,box-shadow .12s}
+.btn:hover,.btn:focus-visible{transform:translate(2px,2px);box-shadow:2px 2px 0 #17172b;outline:none}
+.tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:40px 0 16px}
+.tools h2{font-family:"Dela Gothic One",Impact,sans-serif;font-weight:400;font-size:1.8rem;margin:0 auto 0 0}
+input{font:inherit;color:var(--ink);background:var(--panel);border:3px solid var(--ink);border-radius:4px;padding:8px 12px;min-width:0;flex:1 1 180px;max-width:260px}
+input:focus-visible,.chip:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 12px}
+.chip{font:inherit;font-weight:700;white-space:nowrap;cursor:pointer;color:var(--ink);background:var(--panel);border:3px solid var(--ink);border-radius:999px;padding:4px 16px}
+.chip[aria-pressed="true"]{background:var(--sun);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:22px;margin-top:8px}
+.card{background:var(--panel);border:3px solid var(--ink);border-radius:6px;box-shadow:6px 6px 0 var(--ink);overflow:hidden;display:flex;flex-direction:column}
+.cover{position:relative;aspect-ratio:3/4;overflow:hidden;display:flex;align-items:flex-end;justify-content:space-between;padding:10px 12px;color:#fff;border-bottom:3px solid var(--ink)}
+.cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cover b{position:relative;z-index:1;font-family:"Dela Gothic One",Impact,sans-serif;font-weight:400;font-size:3.6rem;line-height:.8;text-shadow:3px 3px 0 rgba(0,0,0,.35)}
+.cover.has b{display:none}
+.tag{position:absolute;right:10px;bottom:10px;z-index:1;background:var(--gold);color:#17172b;font-weight:700;font-size:.8rem;border:2px solid #17172b;border-radius:3px;padding:0 8px}
+.body{padding:14px}
+.body h3{margin:0 0 4px;font-size:1.1rem;line-height:1.25}
+.meta{margin:0 0 8px;color:var(--muted);font-size:.88rem}
+.body p{margin:0;font-size:.95rem}
+.empty{grid-column:1/-1;padding:28px;border:3px dashed var(--ink);border-radius:6px;text-align:center}
+footer{margin:44px 0 12px;color:var(--muted);font-size:.85rem;text-align:center}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.btn{transition:none}}
+</style>
 </head>
 <body>
-  <header>
-    <div class="header-inner">
-      <div class="brand-row">
-        <div class="brand">MUNDO ANIME</div>
-        <div class="count-badge" id="countBadge">Cargando...</div>
-      </div>
-      <div class="controls">
-        <input type="search" id="searchInput" placeholder="Buscar anime por título..." />
-        <select id="genreSelect">
-          <option value="">Todos los géneros</option>
-        </select>
-      </div>
+<main class="wrap">
+  <section class="hero" aria-label="Portada">
+    <div class="sun" aria-hidden="true"></div>
+    <h1>Mundo<br>Anime</h1>
+    <p>Los animes que no te puedes perder, todos en un solo lugar.</p>
+    <a class="btn" href="#catalogo">Ver catálogo</a>
+  </section>
+
+  <section id="catalogo">
+    <div class="tools">
+      <h2>Catálogo</h2>
+      <input id="q" type="search" placeholder="Buscar anime" aria-label="Buscar anime">
     </div>
-  </header>
+    <div class="chips" id="chips" role="group" aria-label="Filtrar por género"></div>
+    <div class="grid" id="grid"></div>
+  </section>
 
-  <main>
-    <div id="statusBox" class="status-box">
-      <h2>Iniciando catálogo...</h2>
-      <p>Conectando con la base de datos.</p>
-    </div>
-    <div id="catalogGrid" class="grid" style="display: none;"></div>
-  </main>
+  <footer>Mundo Anime · datos de Supabase · pósters de Jikan (MyAnimeList)</footer>
+</main>
 
-  <script>
-    // Sustituye estos valores con los de tu proyecto en Supabase si aún no están puestos
-    const SUPABASE_URL = "https://vskecpeihclqjjgxagvb.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_7WBeV8jMTJqMAUvLTcj3Sw_iETj2eX2EY";
-    const TABLE_NAME = "animes";
+<script>
+const SB_URL="https://vskecpeihclqjjgxagvb.supabase.co";
+const SB_KEY="sb_publishable_7WBeV8jMTJqMAUvLTcj35w_iETj2eX2";
+let ANIMES=[
+{n:"Naruto",g:"Acción",s:"Un joven ninja marginado sueña con ser el líder de su aldea y gana amigos y rivales en el camino.",a:2002,e:220},
+{n:"One Piece",g:"Aventura",s:"Luffy y su tripulación pirata recorren el mar en busca del tesoro más grande del mundo.",a:1999,e:1100},
+{n:"Attack on Titan",g:"Acción",s:"La humanidad vive tras enormes muros para protegerse de gigantes devoradores de personas.",a:2013,e:94},
+{n:"Death Note",g:"Misterio",s:"Un estudiante encuentra un cuaderno que mata a quien se escriba en él y un detective genial lo persigue.",a:2006,e:37},
+{n:"Fullmetal Alchemist: Brotherhood",g:"Fantasía",s:"Dos hermanos alquimistas buscan la piedra filosofal para recuperar lo que perdieron en un ritual prohibido.",a:2009,e:64},
+{n:"Demon Slayer",g:"Acción",s:"Tanjiro se une a los cazadores de demonios para curar a su hermana convertida en demonio.",a:2019,e:26},
+{n:"Spy x Family",g:"Comedia",s:"Un espía, una asesina y una niña telépata fingen ser una familia normal para cumplir una misión.",a:2022,e:25},
+{n:"Your Name",g:"Romance",s:"Dos adolescentes que no se conocen intercambian cuerpos y empiezan a buscarse a través del tiempo.",a:2016,e:1}
+];
+const MAL={"Naruto":20,"One Piece":21,"Attack on Titan":16498,"Death Note":1535,"Fullmetal Alchemist: Brotherhood":5114,"Demon Slayer":38000,"Spy x Family":50265,"Your Name":32281};
+const COLORS=[["#f77f00","#d62828"],["#0077b6","#023e8a"],["#6a4c93","#1d1a4a"],["#2b2d42","#8d0801"],["#c1121f","#780000"],["#2a9d8f","#264653"],["#e76f51","#9d4edd"],["#4361ee","#f72585"]];
+const POSTERS={};
+const grid=document.getElementById("grid"),chips=document.getElementById("chips"),q=document.getElementById("q");
+let genre="Todos",genres=["Todos"];
 
-    const statusBox = document.getElementById("statusBox");
-    const catalogGrid = document.getElementById("catalogGrid");
-    const countBadge = document.getElementById("countBadge");
-    const searchInput = document.getElementById("searchInput");
-    const genreSelect = document.getElementById("genreSelect");
+function esc(t){return String(t==null?"":t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function drawChips(){
+  chips.innerHTML=genres.map(g=>'<button class="chip" aria-pressed="'+(g===genre)+'" data-g="'+esc(g)+'">'+esc(g)+'</button>').join("");
+}
+function draw(){
+  const t=q.value.trim().toLowerCase();
+  const list=ANIMES.map((a,i)=>({...a,i})).filter(a=>(genre==="Todos"||a.g===genre)&&a.n.toLowerCase().includes(t));
+  grid.innerHTML=list.length?list.map(a=>{
+    const c=COLORS[a.i%COLORS.length],p=POSTERS[a.n];
+    const eps=a.e===1?"Película":a.e+" episodios";
+    const img=p?'<img src="'+esc(p)+'" alt="Póster de '+esc(a.n)+'" loading="lazy">':'';
+    return '<article class="card"><div class="cover'+(p?' has':'')+'" style="background:linear-gradient(135deg,'+c[0]+','+c[1]+')">'+img+'<b>'+esc(a.n[0])+'</b><span class="tag">'+esc(a.g)+'</span></div><div class="body"><h3>'+esc(a.n)+'</h3><p class="meta">'+(a.a||"")+' · '+eps+'</p><p>'+esc(a.s)+'</p></div></article>';
+  }).join(""):'<div class="empty">No encontramos animes con ese nombre. Prueba con otra búsqueda o cambia el género.</div>';
+}
 
-    let allAnimes = [];
+async function loadAnimes(){
+  try{
+    const r=await fetch(SB_URL+"/rest/v1/animes?select=nombre,genero,sinopsis,anio,episodios&order=anio.asc",{headers:{apikey:SB_KEY}});
+    if(!r.ok)throw new Error(r.status);
+    const rows=await r.json();
+    if(rows.length)ANIMES=rows.map(x=>({n:x.nombre,g:x.genero||"Otros",s:x.sinopsis||"",a:x.anio,e:x.episodios||1}));
+  }catch(err){console.warn("Usando copia local",err)}
+  genres=["Todos",...new Set(ANIMES.map(a=>a.g))];
+  drawChips();draw();loadPosters();
+}
 
-    function showStatus(title, message) {
-      catalogGrid.style.display = "none";
-      statusBox.style.display = "block";
-      statusBox.innerHTML = `<h2>${title}</h2><p>${message}</p>`;
-    }
-
-    function renderAnimes(list) {
-      countBadge.textContent = `${list.length} ${list.length === 1 ? "anime" : "animes"}`;
-
-      if (!list.length) {
-        showStatus("Sin resultados", "No se encontraron animes con ese filtro.");
-        return;
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+async function loadPosters(){
+  let cache={};
+  try{cache=JSON.parse(localStorage.getItem("posters")||"{}")}catch(e){}
+  for(const a of ANIMES){
+    if(cache[a.n]){POSTERS[a.n]=cache[a.n];continue}
+    try{
+      const url=MAL[a.n]?"https://api.jikan.moe/v4/anime/"+MAL[a.n]:"https://api.jikan.moe/v4/anime?limit=1&sfw=true&q="+encodeURIComponent(a.n);
+      const r=await fetch(url);
+      if(r.ok){
+        const j=await r.json(),d=Array.isArray(j.data)?j.data[0]:j.data;
+        const u=d&&d.images&&d.images.jpg&&d.images.jpg.large_image_url;
+        if(u){POSTERS[a.n]=u;cache[a.n]=u;try{localStorage.setItem("posters",JSON.stringify(cache))}catch(e){}}
       }
-
-      statusBox.style.display = "none";
-      catalogGrid.style.display = "grid";
-      catalogGrid.innerHTML = list.map((anime) => {
-        const title = anime.title || anime.titulo || anime.name || "Sin título";
-        const genre = anime.genre || anime.genero || "General";
-        const year = anime.year || anime.anio || "";
-        const synopsis = anime.synopsis || anime.sinopsis || anime.description || "";
-        const cover = anime.cover_url || anime.imagen || anime.image_url || "";
-
-        return `
-          <article class="card">
-            ${cover ? `<img src="${cover}" alt="${title}" loading="lazy" />` : ""}
-            <div class="card-body">
-              <div class="card-title">${title}</div>
-              <div class="meta">
-                <span class="tag">${genre}</span>
-                <span>${year}</span>
-              </div>
-              ${synopsis ? `<p class="synopsis">${synopsis}</p>` : ""}
-            </div>
-          </article>
-        `;
-      }).join("");
-    }
-
-    function populateGenres(list) {
-      const genres = [...new Set(
-        list
-          .map((item) => item.genre || item.genero)
-          .filter(Boolean)
-      )].sort();
-
-      genreSelect.innerHTML = `<option value="">Todos los géneros</option>` +
-        genres.map((g) => `<option value="${g}">${g}</option>`).join("");
-    }
-
-    function applyFilters() {
-      const query = searchInput.value.trim().toLowerCase();
-      const selectedGenre = genreSelect.value;
-
-      const filtered = allAnimes.filter((anime) => {
-        const title = String(anime.title || anime.titulo || anime.name || "").toLowerCase();
-        const genre = String(anime.genre || anime.genero || "");
-        const matchesQuery = !query || title.includes(query);
-        const matchesGenre = !selectedGenre || genre === selectedGenre;
-        return matchesQuery && matchesGenre;
-      });
-
-      renderAnimes(filtered);
-    }
-
-    async function initCatalog() {
-      if (!window.supabase) {
-        showStatus("Error al cargar Supabase", "No se pudo cargar la librería supabase-js desde el CDN.");
-        return;
-      }
-
-      if (
-        !SUPABASE_URL.startsWith("https://") ||
-        SUPABASE_URL.includes("TU_SUPABASE_URL") ||
-        SUPABASE_ANON_KEY.includes("TU_SUPABASE_ANON_KEY")
-      ) {
-        showStatus(
-          "Faltan credenciales de Supabase",
-          "Edita SUPABASE_URL y SUPABASE_ANON_KEY dentro de index.html con los datos reales de tu proyecto en Supabase."
-        );
-        return;
-      }
-
-      try {
-        const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        const { data, error } = await client.from(TABLE_NAME).select("*");
-
-        if (error) {
-          showStatus("Error en Supabase", error.message);
-          return;
-        }
-
-        allAnimes = data || [];
-        populateGenres(allAnimes);
-        renderAnimes(allAnimes);
-      } catch (err) {
-        showStatus("Error inesperado", err.message || "Revisa la configuración de Supabase.");
-      }
-    }
-
-    searchInput.addEventListener("input", applyFilters);
-    genreSelect.addEventListener("change", applyFilters);
-
-    initCatalog();
-  </script>
+    }catch(err){}
+    draw();
+    await sleep(450);
+  }
+  draw();
+}
+chips.addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;genre=b.dataset.g;drawChips();draw()});
+q.addEventListener("input",draw);
+try{Object.assign(POSTERS,JSON.parse(localStorage.getItem("posters")||"{}"))}catch(e){}
+genres=["Todos",...new Set(ANIMES.map(a=>a.g))];
+drawChips();draw();loadAnimes();
+</script>
 </body>
-</html>
-
+</html>q
